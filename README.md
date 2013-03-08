@@ -1,4 +1,5 @@
 Enehana.CodeSamples
 ===================
 
-Code examples from enehana.nohea.com blog posts
+Code examples from http://enehana.nohea.com blog posts
+
