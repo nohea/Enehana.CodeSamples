@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Handlebars Test</title>
+
+    <!--<script src="../js/lib/jquery/dist/jquery.min.js"></script>
+    <script src="../js/lib/handlebars/handlebars.runtime.min.js"></script>
+    <script src="../js/dist/templates.js"></script>
+    <script src="../js/app/app.js"></script>
+-->
+    <script type="text/javascript">
+    (function() {
+        function async_load(){
+            var cb = 'cb=' +(new Date).getTime();
+
+            var rmist = document.createElement('script');
+            rmist.type = 'text/javascript';
+            rmist.async = true;
+            rmist.src = '../js/dist/bundle.js?' + cb;
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(rmist, x);
+        }
+        if (window.attachEvent)
+            window.attachEvent('onload', async_load);
+        else
+            window.addEventListener('load', async_load, false);
+    }());
+    </script>
+</head>
+<body>
+
+    <h1>Handlebars Test</h1>
+
+    <p id="main-content">
+        There will be a dynamic element added after this paragraph.
+    </p>
+    <p id="dynamic-content"></p>
+
+</body>
+</html>
