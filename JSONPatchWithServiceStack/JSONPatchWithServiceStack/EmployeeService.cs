@@ -7,7 +7,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Web;
+using JSONPatchWithServiceStack.Extensions;
 
 namespace JSONPatchWithServiceStack
 {
@@ -49,60 +51,8 @@ namespace JSONPatchWithServiceStack
 
             if (emp != null)
             {
-                // read from request dto properties
-                var properties = emp.GetType().GetProperties();
-
                 // update values which are specified to update only
-                foreach (var op in dto)
-                {
-                    string fieldName = op.path.Replace("/", "").ToLower(); // assume leading /slash only for example
-
-                    // patch field is in type
-                    if (properties.ToList().Where(x => x.Name.ToLower() == fieldName).Count() > 0)
-                    {
-                        var persistentProperty = properties.ToList().Where(x => x.Name.ToLower() == fieldName).First();
-
-                        // update property on persistent object
-                        // i'm sure this can be improved, but you get the idea...
-                        if (persistentProperty.PropertyType == typeof(string))
-                        {
-                            persistentProperty.SetValue(emp, op.value, null);
-                        }
-                        else if (persistentProperty.PropertyType == typeof(int))
-                        {
-                            int valInt = 0;
-                            if (Int32.TryParse(op.value, out valInt))
-                            {
-                                persistentProperty.SetValue(emp, valInt, null);
-                            }
-                        }
-                        else if (persistentProperty.PropertyType == typeof(int?))
-                        {
-                            int valInt = 0;
-                            if (op.value == null)
-                            {
-                                persistentProperty.SetValue(emp, null, null);
-                            }
-                            else if (Int32.TryParse(op.value, out valInt))
-                            {
-                                persistentProperty.SetValue(emp, valInt, null);
-                            }
-                        }
-                        else if (persistentProperty.PropertyType == typeof(DateTime))
-                        {
-                            DateTime valDt = default(DateTime);
-                            if (DateTime.TryParse(op.value, out valDt))
-                            {
-                                persistentProperty.SetValue(emp, valDt, null);
-                            }
-                        }
-                        else
-                        {
-                            throw new InvalidCastException(string.Format("type {0} conversion not supported yet", persistentProperty.PropertyType.ToString()));
-                        }
-
-                    }
-                }
+                emp.populateFromJsonPatch(dto);
 
                 // update
                 Repository.Store(emp);
@@ -122,6 +72,7 @@ namespace JSONPatchWithServiceStack
             };
         }
 
-    }
 
+
+    }
 }

@@ -7,7 +7,7 @@ using System.Web;
 namespace JSONPatchWithServiceStack.Operations
 {
     [Route("/employees/{Id}", "PATCH")]
-    public class EmployeePatch : List<JsonPatchElement>
+    public class EmployeePatch : JsonPatchRequest
     {
         public long Id { get; set; }
     }

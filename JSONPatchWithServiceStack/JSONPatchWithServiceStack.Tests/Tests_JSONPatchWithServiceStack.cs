@@ -122,12 +122,12 @@ namespace JSONPatchWithServiceStack.Tests
 
             var empPatch = new Operations.EmployeePatch();
 
-            // float not currently supported by this example code
+            // double not currently supported by this example code
             empPatch.Add(new Operations.JsonPatchElement()
             {
                 op = "replace",
-                path = "/longitude",
-                value = "2.123",
+                path = "/othernumber",
+                value = "3.1415927",
             });
 
             Assert.Throws<WebServiceException>(delegate
@@ -137,6 +137,38 @@ namespace JSONPatchWithServiceStack.Tests
             });
         }
 
+        [Fact]
+        public void Test_PATCH_unsupported_cast_PASS()
+        {
+            var restClient = new JsonServiceClient(serviceUrl);
+
+            // dummy data
+            var newemp1 = new Employee()
+            {
+                Id = 123,
+                Name = "Kimo",
+                StartDate = new DateTime(2015, 7, 2),
+                CubicleNo = 4234,
+                Email = "test1@example.com",
+            };
+            restClient.Post<object>("/employees", newemp1);
+
+            var emps = restClient.Get<List<Employee>>("/employees");
+            var emp = emps.First();
+
+            var empPatch = new Operations.EmployeePatch();
+
+            // float not currently supported by this example code
+            empPatch.Add(new Operations.JsonPatchElement()
+            {
+                op = "replace",
+                path = "/longitude",
+                value = "2.123",
+            });
+
+            restClient.Patch<object>(string.Format("/employees/{0}", emp.Id), empPatch);
+            
+        }
 
     }
 }

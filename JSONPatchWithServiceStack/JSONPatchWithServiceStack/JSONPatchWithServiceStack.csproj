@@ -97,11 +97,13 @@
   <ItemGroup>
     <Compile Include="App_Start\AppHost.cs" />
     <Compile Include="App_Start\AppHostHttpListener.cs" />
+    <Compile Include="JSONPatchWithServiceStackExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Operations\EmployeePatch.cs" />
     <Compile Include="Operations\JsonPatchElement.cs" />
+    <Compile Include="Operations\JsonPatchRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="EmployeeService.cs" />

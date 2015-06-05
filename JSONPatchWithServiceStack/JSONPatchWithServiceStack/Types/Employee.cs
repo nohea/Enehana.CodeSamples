@@ -18,6 +18,6 @@ namespace JSONPatchWithServiceStack.Types
         public DateTime StartDate { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
+        public double OtherNumber { get; set; }
     }
-
 }
